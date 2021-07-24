@@ -31,3 +31,21 @@ object rddParllalize extends App{
  
  val empty_rdd = sc.parallelize(Seq.empty[String])
 }
+
+Read Files:
+
+  val baseRDD = sc.textFile("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\*");
+  
+  val multiFileRDD = sc.textFile("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\invalid.txt,D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\text01.txt");
+
+  var wholeTextRDD = sc.wholeTextFiles("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\*")
+
+  var wholeTextRDD1 = sc.wholeTextFiles("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\invalid.txt,D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\text01.txt")
+
+  CSV:
+  
+ Skip Header From CSV file====================
+When you have a header with column names in a CSV file and to read and process with Spark RDD, you need to skip the header as there is no way in RDD to specify your file has a header.
+
+  var csvRdd = sc.textFile("D:\\Soumya\\git\\SparkPractice\\testdata\\ReadCSV\\*")
+  val newRDD = csvRdd.mapPartitionsWithIndex((idx,iter) => if(idx == 0){iter.drop(1)} else iter)
