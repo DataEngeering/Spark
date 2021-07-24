@@ -36,10 +36,13 @@ object ReadTextFile extends App {
   
   var wholeTextRDD1 = sc.wholeTextFiles("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\invalid.txt,D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadFileData\\text01.txt")
   logger.info("multiple files with whole file ............................")
-  wholeTextRDD.collect().foreach(x=> {
+  wholeTextRDD1.collect().foreach(x=> {
     logger.info(s"File Name :: ${x._1}")
     logger.info(s"File Content :: ${x._2}")
   })
   
+  
+  var csvRdd = sc.textFile("D:\\shiva\\POC\\SoumyaGit\\testdata\\ReadCSV\\orders-201025-223502.csv")
+  csvRdd.mapPartitionsWithIndex((i, iter)=>{if (i == 0) iter.drop(1) else iter}).take(10).foreach(println)
   
 }
